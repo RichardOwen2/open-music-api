@@ -1,4 +1,4 @@
-const routes = ({albumsHandler, songsHandler}) => [
+const routes = ({ albumsHandler, songsHandler }) => [
   {
     method: 'POST',
     path: '/albums',
@@ -32,7 +32,7 @@ const routes = ({albumsHandler, songsHandler}) => [
   {
     method: 'GET',
     path: '/songs/{id}',
-    handler : songsHandler.getSongByIdHandler,
+    handler: songsHandler.getSongByIdHandler,
   },
   {
     method: 'PUT',
@@ -44,6 +44,6 @@ const routes = ({albumsHandler, songsHandler}) => [
     path: '/songs/{id}',
     handler: songsHandler.deleteSongByIdHandler,
   },
-]
+];
 
 module.exports = routes;

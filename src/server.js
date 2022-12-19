@@ -4,7 +4,7 @@ const Hapi = require('@hapi/hapi');
 const music = require('./api');
 const Service = require('./services');
 const Validator = require('./validator');
-const ClientError = require('./error/ClientError')
+const ClientError = require('./error/ClientError');
 
 const init = async () => {
   const server = Hapi.server({
@@ -29,7 +29,6 @@ const init = async () => {
     // mendapatkan konteks response dari request
     const { response } = request;
     if (response instanceof Error) {
-
       // penanganan client error secara internal.
       if (response instanceof ClientError) {
         const newResponse = h.response({

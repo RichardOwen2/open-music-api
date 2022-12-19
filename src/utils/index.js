@@ -26,7 +26,7 @@ const songsModel = ({
   id,
   title,
   performer,
-})
+});
 
 const albumModel = ({
   id,
@@ -36,7 +36,7 @@ const albumModel = ({
   id,
   name,
   year,
-  songs: songs,
-})
+  songs,
+});
 
-module.exports = { singleSongModel, songsModel, albumModel};
+module.exports = { singleSongModel, songsModel, albumModel };

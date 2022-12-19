@@ -16,9 +16,9 @@ class AlbumsHandler {
       status: 'success',
       message: 'Album berhasil ditambahkan',
       data: {
-        albumId: albumId,
+        albumId,
       },
-    })
+    });
     response.code(201);
     return response;
   }
@@ -30,7 +30,7 @@ class AlbumsHandler {
     return {
       status: 'success',
       data: {
-        album: album,
+        album,
       },
     };
   }
@@ -38,7 +38,7 @@ class AlbumsHandler {
   async putAlbumByIdHandler(request) {
     this._validator(request.payload);
     const { id } = request.params;
-    
+
     await this._service.editAlbumById(id, request.payload);
 
     return {
@@ -55,7 +55,7 @@ class AlbumsHandler {
     return {
       status: 'success',
       message: 'Album berhasil dihapus',
-    }
+    };
   }
 }
 

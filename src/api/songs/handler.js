@@ -16,9 +16,9 @@ class SongHandler {
       status: 'success',
       message: 'Lagu berhasil ditambahkan',
       data: {
-        songId: songId,
+        songId,
       },
-    })
+    });
     response.code(201);
     return response;
   }
@@ -28,9 +28,9 @@ class SongHandler {
     return {
       status: 'success',
       data: {
-        songs: songs,
+        songs,
       },
-    }
+    };
   }
 
   async getSongByIdHandler(request) {
@@ -40,9 +40,9 @@ class SongHandler {
     return {
       status: 'success',
       data: {
-        song: song,
+        song,
       },
-    }
+    };
   }
 
   async putSongByIdHandler(request) {
@@ -54,7 +54,7 @@ class SongHandler {
     return {
       status: 'success',
       message: 'Lagu berhasil di edit',
-    }
+    };
   }
 
   async deleteSongByIdHandler(request) {
@@ -65,7 +65,7 @@ class SongHandler {
     return {
       status: 'success',
       message: 'Lagu berhasil di hapus',
-    }
+    };
   }
 }
 
