@@ -4,7 +4,7 @@ const InvariantError = require('../error/InvariantError');
 const NotFoundError = require('../error/NotFoundError');
 const { singleSongModel, songsModel } = require('../utils');
 
-class SongService {
+class SongsService {
   constructor() {
     this._pool = new Pool();
   }
@@ -64,7 +64,7 @@ class SongService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu tidak ditemukan');
     }
 
@@ -81,7 +81,7 @@ class SongService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Gagal memperbarui lagu. Id tidak ditemukan');
     }
   }
@@ -94,10 +94,10 @@ class SongService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
     }
   }
 }
 
-module.exports = SongService;
+module.exports = SongsService;
