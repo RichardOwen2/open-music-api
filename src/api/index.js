@@ -1,5 +1,5 @@
-const AlbumsHandler = require('./albums/handler');
-const SongsHandler = require('./songs/handler');
+const AlbumsHandler = require('./handler/AlbumsHandler');
+const SongsHandler = require('./handler/SongHandler');
 
 const routes = require('./routes');
 
