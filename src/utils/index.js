@@ -28,15 +28,29 @@ const songsModel = ({
   performer,
 });
 
-const albumModel = ({
-  id,
-  name,
-  year,
-}, songs) => ({
-  id,
-  name,
-  year,
-  songs,
+const albumSong = (data) => ({
+  id: data[0].album_id,
+  name: data[0].name,
+  year: data[0].year,
+  songs: data.map(songsModel),
 });
 
-module.exports = { singleSongModel, songsModel, albumModel };
+const playlistSong = (data) => ({
+  id: data[0].id,
+  name: data[0].name,
+  username: data[0].username,
+  songs: data.map(({ song_id, title, performer }) => ({
+    id: song_id,
+    title,
+    performer,
+  })),
+});
+
+const activities = (playlistId, data) => ({
+  playlistId,
+  activities: data,
+});
+
+module.exports = {
+  singleSongModel, albumSong, playlistSong, activities,
+};

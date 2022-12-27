@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const InvariantError = require('../error/InvariantError');
 const NotFoundError = require('../error/NotFoundError');
-const { singleSongModel, songsModel } = require('../utils');
+const { singleSongModel } = require('../utils');
 
 class SongsService {
   constructor() {
@@ -28,32 +28,14 @@ class SongsService {
     return result.rows[0].id;
   }
 
-  async getSongs({ title, performer }) {
-    let query;
-
-    if (title && performer) {
-      query = {
-        text: 'SELECT * FROM songs WHERE title iLIKE $1 AND performer iLIKE $2',
-        values: [`%${title}%`, `%${performer}%`],
-      };
-    } else if (title) {
-      query = {
-        text: 'SELECT * FROM songs WHERE title iLIKE $1',
-        values: [`%${title}%`],
-      };
-    } else if (performer) {
-      query = {
-        text: 'SELECT * FROM songs WHERE performer iLIKE $1',
-        values: [`%${performer}%`],
-      };
-    } else {
-      query = {
-        text: 'SELECT * FROM songs',
-      };
-    }
+  async getSongs({ title = '', performer = '' }) {
+    const query = {
+      text: 'SELECT id, title, performer FROM songs WHERE title iLIKE $1 AND performer iLIKE $2',
+      values: [`%${title}%`, `%${performer}%`],
+    };
 
     const result = await this._pool.query(query);
-    return result.rows.map(songsModel);
+    return result.rows;
   }
 
   async getSongById(id) {
@@ -98,6 +80,40 @@ class SongsService {
       throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
     }
   }
+
+  // // albums
+
+  // async getSongsFromAlbumById(id) {
+  //   const query = {
+  //     text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
+  //     values: [id],
+  //   };
+
+  //   const result = await this._pool.query(query);
+
+  //   if (!result.rowCount) {
+  //     return [];
+  //   }
+
+  //   return result.rows.map(songsModel);
+  // }
+
+  // // playlists
+
+  // async getSongsFromPlaylistById(id) {
+  //   const query = {
+  //     text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
+  //     values: [id],
+  //   }
+
+  //   const result = await this._pool.query(query);
+
+  //   if (!result.rowCount) {
+  //     return [];
+  //   }
+
+  //   return result.rows;
+  // }
 }
 
 module.exports = SongsService;
