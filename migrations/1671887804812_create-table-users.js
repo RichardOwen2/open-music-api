@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 exports.up = (pgm) => {
   pgm.createTable('users', {
     id: {
@@ -15,11 +13,11 @@ exports.up = (pgm) => {
       type: 'TEXT',
       notNull: true,
     },
-    fullName : {
+    fullName: {
       type: 'TEXT',
       notNull: true,
     },
-  })
+  });
 };
 
 exports.down = (pgm) => {

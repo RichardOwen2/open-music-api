@@ -9,8 +9,6 @@ class PlaylistsHandler {
     autoBind(this);
   }
 
-  // Playlist
-
   async postPlaylistHandler(request, h) {
     this._validator.validatePostPlaylistPayload(request.payload);
     const { name } = request.payload;
@@ -53,8 +51,6 @@ class PlaylistsHandler {
       message: 'Playlist berhasil di hapus',
     };
   }
-
-  // Playlist-songs
 
   async postSongToPlaylistHandler(request, h) {
     this._validator.validatePostSongPlaylistPayload(request.payload);
@@ -105,8 +101,6 @@ class PlaylistsHandler {
       message: 'Lagu berhasil dihapus dari playlist',
     };
   }
-
-  /// Playlist-activities
 
   async getPlaylistActivitiesById(request) {
     const { id: playlistId } = request.params;

@@ -11,8 +11,6 @@ class PlaylistsService {
     this._collaborationService = collaborationService;
   }
 
-  // Verify
-
   async verifyPlaylistOwner(playlistId, userId) {
     const query = {
       text: 'SELECT * FROM playlists WHERE id = $1',
@@ -44,8 +42,6 @@ class PlaylistsService {
       }
     }
   }
-
-  // Playlist
 
   async addPlaylist(name, owner) {
     const id = `playlist-${nanoid(16)}`;
@@ -89,8 +85,6 @@ class PlaylistsService {
       throw new InvariantError('Playlist gagal dihapus');
     }
   }
-
-  // Playlist Songs
 
   async addSongToPlaylistById(playlistId, songId) {
     const id = `playlist_songs-${nanoid(16)}`;
@@ -139,8 +133,6 @@ class PlaylistsService {
       throw new NotFoundError('Playlist tidak ditemukan');
     }
   }
-
-  // playlist-activities
 
   async addActivities(userId, playlistId, songId, action) {
     const id = `activities-${nanoid(16)}`;
