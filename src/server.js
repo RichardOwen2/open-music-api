@@ -56,11 +56,11 @@ const CacheService = require('./services/CacheService');
 const init = async () => {
   const cacheService = new CacheService();
   const albumsService = new AlbumsService(cacheService);
-  const songsService = new SongsService();
+  const songsService = new SongsService(cacheService);
   const authenticationsService = new AuthenticationsService();
   const usersService = new UsersService();
-  const collaborationsService = new CollaborationService();
-  const playlistsService = new PlaylistsService(collaborationsService);
+  const collaborationsService = new CollaborationService(cacheService);
+  const playlistsService = new PlaylistsService(collaborationsService, cacheService);
   const storageService = new StorageService(path.resolve(__dirname, './storage/albumsCover'));
 
   const server = Hapi.server({

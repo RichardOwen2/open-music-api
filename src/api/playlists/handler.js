@@ -26,17 +26,19 @@ class PlaylistsHandler {
     return response;
   }
 
-  async getPlaylistHandler(request) {
+  async getPlaylistHandler(request, h) {
     const { id: owner } = request.auth.credentials;
 
-    const playlists = await this._playlistsService.getPlaylist(owner);
+    const { dataSource, playlists } = await this._playlistsService.getPlaylist(owner);
 
-    return {
+    const response = h.response({
       status: 'success',
       data: {
         playlists,
       },
-    };
+    });
+    response.header('X-Data-Source', dataSource);
+    return response;
   }
 
   async deletePlaylistByIdHandler(request) {
@@ -44,7 +46,7 @@ class PlaylistsHandler {
     const { id: userId } = request.auth.credentials;
 
     await this._playlistsService.verifyPlaylistOwner(playlistId, userId);
-    await this._playlistsService.deletePlaylistById(playlistId);
+    await this._playlistsService.deletePlaylistById(playlistId, userId);
 
     return {
       status: 'success',
