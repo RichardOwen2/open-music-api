@@ -6,8 +6,8 @@
   "scripts": {
     "start-prod": "set NODE_ENV=production && node ./src/server.js",
     "start-dev": "nodemon ./src/server.js",
-    "lint": "eslint ./src",
-    "fixlint": "eslint ./src --fix",
+    "lint": "eslint ./",
+    "fixlint": "eslint ./ --fix",
     "migrate": "node-pg-migrate"
   },
   "keywords": [],
@@ -21,13 +21,17 @@
   },
   "dependencies": {
     "@hapi/hapi": "^20.1.0",
+    "@hapi/inert": "^7.0.0",
     "@hapi/jwt": "^3.0.0",
+    "amqplib": "^0.10.3",
     "auto-bind": "^4.0.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",
     "nanoid": "^3.1.20",
     "node-pg-migrate": "^6.2.2",
-    "pg": "^8.8.0"
+    "path": "^0.12.7",
+    "pg": "^8.8.0",
+    "redis": "^4.5.1"
   }
 }

@@ -80,40 +80,6 @@ class SongsService {
       throw new NotFoundError('Lagu gagal dihapus. Id tidak ditemukan');
     }
   }
-
-  // // albums
-
-  // async getSongsFromAlbumById(id) {
-  //   const query = {
-  //     text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
-  //     values: [id],
-  //   };
-
-  //   const result = await this._pool.query(query);
-
-  //   if (!result.rowCount) {
-  //     return [];
-  //   }
-
-  //   return result.rows.map(songsModel);
-  // }
-
-  // // playlists
-
-  // async getSongsFromPlaylistById(id) {
-  //   const query = {
-  //     text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
-  //     values: [id],
-  //   }
-
-  //   const result = await this._pool.query(query);
-
-  //   if (!result.rowCount) {
-  //     return [];
-  //   }
-
-  //   return result.rows;
-  // }
 }
 
 module.exports = SongsService;

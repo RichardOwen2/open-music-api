@@ -2,6 +2,11 @@ require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
+const path = require('path')
+
+// config
+const config = require('./utils/config')
 
 // error
 const ClientError = require('./error/ClientError');
@@ -37,17 +42,30 @@ const collaborations = require('./api/collaborations');
 const CollaborationService = require('./services/CollaborationsService');
 const CollaborationValidator = require('./validator/collaborations');
 
+// exports
+const _exports = require('./api/exports');
+const ExportsService = require('./services/ExportsService');
+const ExportValidator = require('./validator/exports');
+
+// storage
+const StorageService = require('./services/StorageService');
+
+// cache
+const CacheService = require('./services/CacheService');
+
 const init = async () => {
-  const albumsService = new AlbumsService();
+  const cacheService = new CacheService();
+  const albumsService = new AlbumsService(cacheService);
   const songsService = new SongsService();
   const authenticationsService = new AuthenticationsService();
   const usersService = new UsersService();
   const collaborationsService = new CollaborationService();
   const playlistsService = new PlaylistsService(collaborationsService);
+  const storageService = new StorageService(path.resolve(__dirname, './storage/albumsCover'));
 
   const server = Hapi.server({
-    port: process.env.PORT,
-    host: process.env.HOST,
+    port: config.app.port,
+    host: config.app.host,
     routes: {
       cors: {
         origin: ['*'],
@@ -59,15 +77,18 @@ const init = async () => {
     {
       plugin: Jwt,
     },
+    {
+      plugin: Inert,
+    },
   ]);
 
   server.auth.strategy('openmusic_jwt', 'jwt', {
-    keys: process.env.ACCESS_TOKEN_KEY,
+    keys: config.jwt.accessKey,
     verify: {
       aud: false,
       iss: false,
       sub: false,
-      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+      maxAgeSec: config.jwt.tokenAge,
     },
     validate: (artifacts) => ({
       isValid: true,
@@ -81,7 +102,8 @@ const init = async () => {
     {
       plugin: albums,
       options: {
-        service: albumsService,
+        albumsService,
+        storageService,
         validator: AlbumsValidator,
       },
     },
@@ -124,7 +146,15 @@ const init = async () => {
         usersService,
         validator: CollaborationValidator,
       },
-    },
+    }, 
+    {
+      plugin: _exports,
+      options : {
+        ExportsService,
+        playlistsService,
+        validator: ExportValidator,
+      }
+    }
   ]);
 
   server.ext('onPreResponse', (request, h) => {
