@@ -51,15 +51,15 @@ class SongsService {
         text: 'SELECT * FROM songs WHERE id = $1',
         values: [id],
       };
-  
+
       const result = await this._pool.query(query);
-  
+
       if (!result.rowCount) {
         throw new NotFoundError('Lagu tidak ditemukan');
       }
-      
+
       const mappedResult = result.rows.map(singleSongModel)[0];
-      
+
       await this._cacheService.set(`song:${id}`, JSON.stringify(mappedResult));
 
       return {

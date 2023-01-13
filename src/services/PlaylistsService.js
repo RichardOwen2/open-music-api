@@ -57,7 +57,7 @@ class PlaylistsService {
     if (!result.rowCount) {
       throw new InvariantError('Playlist gagal ditambahkan');
     }
-    
+
     await this._cacheService.delete(`playlist:${owner}`);
     return result.rows[0].id;
   }
@@ -68,7 +68,7 @@ class PlaylistsService {
       return {
         dataSource: 'cache',
         playlists: JSON.parse(result),
-      }
+      };
     } catch {
       const query = {
         text: `SELECT playlists.id, playlists.name, users.username FROM playlists
@@ -77,14 +77,14 @@ class PlaylistsService {
         WHERE playlists.owner = $1 OR collaborations.user_id = $1`,
         values: [owner],
       };
-  
+
       const result = await this._pool.query(query);
       await this._cacheService.set(`playlist:${owner}`, JSON.stringify(result.rows));
 
       return {
         dataSource: 'database',
         playlists: result.rows,
-      }
+      };
     }
   }
 
