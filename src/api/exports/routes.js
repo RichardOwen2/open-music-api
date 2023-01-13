@@ -6,7 +6,7 @@ const routes = (handler) => [
     options: {
       auth: 'openmusic_jwt',
     },
-  }
+  },
 ];
 
 module.exports = routes;

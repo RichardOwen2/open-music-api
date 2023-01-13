@@ -76,7 +76,7 @@ class AlbumsService {
     const query = {
       text: 'SELECT * FROM albums WHERE id = $1',
       values: [id],
-    }
+    };
 
     const result = await this._pool.query(query);
 
@@ -100,7 +100,7 @@ class AlbumsService {
     const query = {
       text: 'SELECT * FROM user_album_likes WHERE album_id = $1 AND user_id = $2',
       values: [albumId, userId],
-    }
+    };
 
     const result = await this._pool.query(query);
 
@@ -111,8 +111,8 @@ class AlbumsService {
     const likeId = `albumLike-${nanoid(16)}`;
     const query = {
       text: 'INSERT INTO user_album_likes VALUES($1, $2, $3) RETURNING id',
-      values: [likeId, userId, albumId]
-    }
+      values: [likeId, userId, albumId],
+    };
 
     const result = await this._pool.query(query);
 
@@ -127,7 +127,7 @@ class AlbumsService {
     const query = {
       text: 'DELETE FROM user_album_likes WHERE album_id = $1 AND user_id = $2 RETURNING id',
       values: [albumId, userId],
-    }
+    };
 
     const result = await this._pool.query(query);
 
@@ -141,21 +141,21 @@ class AlbumsService {
   async countAlbumLike(albumId) {
     try {
       const result = await this._cacheService.get(`albumLike:${albumId}`);
-      return { 
+      return {
         dataSource: 'cache',
-        likeCount: parseInt(result),
+        likeCount: parseInt(result, 10),
       };
     } catch {
       const query = {
         text: 'SELECT COUNT(id) FROM user_album_likes WHERE album_id = $1',
         values: [albumId],
-      }
-  
+      };
+
       const result = await this._pool.query(query);
-      const like = parseInt(result.rows[0].count);
+      const like = parseInt(result.rows[0].count, 10);
 
       await this._cacheService.set(`albumLike:${albumId}`, like);
-      return { 
+      return {
         dataSource: 'database',
         likeCount: like,
       };

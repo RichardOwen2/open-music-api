@@ -1,5 +1,5 @@
 const Jwt = require('@hapi/jwt');
-const config = require('../utils/config')
+const config = require('../utils/config');
 
 const TokenManager = {
   generateAccessToken: (payload) => Jwt.token.generate(payload, config.jwt.accessKey),

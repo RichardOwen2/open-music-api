@@ -3,10 +3,10 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const Inert = require('@hapi/inert');
-const path = require('path')
+const path = require('path');
 
 // config
-const config = require('./utils/config')
+const config = require('./utils/config');
 
 // error
 const ClientError = require('./error/ClientError');
@@ -146,15 +146,15 @@ const init = async () => {
         usersService,
         validator: CollaborationValidator,
       },
-    }, 
+    },
     {
       plugin: _exports,
-      options : {
+      options: {
         ExportsService,
         playlistsService,
         validator: ExportValidator,
-      }
-    }
+      },
+    },
   ]);
 
   server.ext('onPreResponse', (request, h) => {

@@ -63,7 +63,7 @@ class AlbumsHandler {
     const { cover } = request.payload;
     this._validator.validateCoverAlbumPayload(cover.hapi.headers);
 
-    const { id } = request.params; 
+    const { id } = request.params;
 
     await this._albumService.checkAlbumIfExist(id);
 
@@ -83,7 +83,7 @@ class AlbumsHandler {
     const { id: userId } = request.auth.credentials;
 
     await this._albumService.checkAlbumIfExist(albumId);
-    
+
     const like = await this._albumService.checkUserLikeAlbum(albumId, userId);
 
     if (like) {
@@ -94,7 +94,7 @@ class AlbumsHandler {
 
     const response = h.response({
       status: 'success',
-      message: like? 'Berhasil Menyukai Album':'Berhasil membatalkan suka album',
+      message: like ? 'Berhasil Menyukai Album' : 'Berhasil membatalkan suka album',
     });
     response.code(201);
     return response;
